@@ -15,7 +15,7 @@ The core mathematical concept of note is Ollivier-Ricci curvature, which is a di
 - **Vertices (V):** Individual stocks
 - **Edges (E):** Correlations between stocks
 - **Weight function w:** E → [0,1]
-- 
+  
 ![snetworkimage](https://github.com/user-attachments/assets/fc77f466-e143-4c3a-a12e-addba1c8cb86)
 
 #### Curvature Definition
