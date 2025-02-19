@@ -1,39 +1,41 @@
 # Ricci Flow Dashboard: A Geometric Approach to Market Analysis
-
 ## Project Overview
 A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
+
+![ricciimage](https://github.com/user-attachments/assets/c370969a-488c-4e11-8234-ec0db0d6a9e6)
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
 ### Theoretical Background
-This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network robustness and structural characteristics.
+This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics.
 
 ### Ollivier-Ricci Curvature
-The core mathematical concept we employ is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
+The core mathematical concept of note is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
 
 #### Network Construction
 - **Vertices (V):** Individual stocks
 - **Edges (E):** Correlations between stocks
 - **Weight function w:** E → [0,1]
 
-#### Curvature Definition
-For any two vertices \(x,y \in V\), the Ollivier-Ricci curvature \( \kappa(x,y) \) is defined as:
+![snetworkimage](https://github.com/user-attachments/assets/94b3c8df-df69-4f6d-988c-2118d02f5554)
 
+#### Curvature Definition
+For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defined as:
 ```math
 \kappa(x,y) = 1 - \frac{W_1(\mu_x, \mu_y)}{d(x,y)}
 ```
 where:
 
-- \( W_1 \) is the Wasserstein-1 (transportation) distance
-- \( \mu_x, \mu_y \) are probability measures
-- \( d(x,y) \) is the geodesic distance
+-  W<sub>1</sub> is the Wasserstein-1 (transportation) distance
+-  μ<sub>x</sub>, μ<sub>y</sub> are probability measures
+-  d(x,y) is the geodesic distance
 
 ### Application to Financial Markets
 
 #### Market Network Construction
 - **Nodes:** Represent individual stocks
-- **Edge weights:** \( w_{ij} = \rho_{ij} \) (correlation coefficient)
-- **Price returns:** \( r_i(t) = \log(P_i(t)/P_i(t-1)) \)
+- **Edge weights:** \( w<sub>ij,/sub >= ρ<sub>ij</sub> \) (correlation coefficient)
+- **Price returns:** \( r<sub>i(t)</sub> = log(P<sub>i(t)</sub> | r<sub>i(t-1)</sub>) \)
 
 #### Network Measures
 - **Correlation Matrix:**
@@ -60,10 +62,10 @@ governs the evolution of market structure.
 #### Key Theoretical Results
 
 ##### Network Stability
-- **Positive curvature:** More robust network
+- **Positive curvature:** More sturdy network
 - **Negative curvature:** More fragile network
-- \( \kappa > 0 \) indicates market stability
-- \( \kappa < 0 \) suggests potential market stress
+- \( κ > 0 \) indicates market stability
+- \( κ < 0 \) suggests potential market stress
 
 ##### Regime Detection
 The temporal evolution of Ricci curvature helps identify market regimes:
@@ -81,38 +83,21 @@ Using curvature as a risk measure:
 
 where:
 - \( w \): Portfolio weights
-- \( \Sigma \): Covariance matrix
-- \( \mu \): Expected returns
-- \( \kappa_0 \): Minimum curvature threshold
+- \( Σ \): Covariance matrix
+- \( μ \): Expected returns
+- \( κ<sub>0</sub> \): Minimum curvature threshold
 
-### Why It Works
-#### Geometric Interpretation
-- Captures higher-order relationships beyond pairwise correlations
-- Measures local interaction strength and global network structure
+### Why Does it Work?
 
-#### Topological Stability
-- Ricci curvature bounds entropy changes
-- Provides early warning signals for market stress
+It works because it goes beyond simple pairwise correlations, capturing the higher-order relationships that influence the system.
 
-#### Scale Invariance
-- Results are robust to market size
-- Applicable across different time scales
+This approach measures both local interaction strength and the overall network structure, providing a clearer picture of how elements are connected.
 
-### Implementation Details
-#### Curvature Computation
+Additionally, it ensures topological stability by using Ricci curvature to bound entropy changes, offering valuable early warning signals for potential market stress. 
 
-```math
-\kappa(x,y) \approx 1 - \frac{d_W(\mu_x, \mu_y)}{d(x,y)}
-```
+![toptradingpairsimage](https://github.com/user-attachments/assets/02711bda-097c-4c68-8e6e-dab7d002991f)
 
-#### Optimal Transport
-- Uses network simplex algorithm
-- Approximates Wasserstein distance
-
-#### Regime Detection
-- Hidden Markov Models on curvature time series
-- Maximum likelihood estimation for regime parameters
-
+![performingpairsimage](https://github.com/user-attachments/assets/27918d76-0ff0-4184-bcbb-fa2183c9fbeb)
 
 ## Features
 
@@ -121,18 +106,17 @@ where:
 - Network visualization of stock relationships
 - Ricci curvature calculation for market structure analysis
 - Portfolio optimization based on network metrics
+  
+![marketsimage](https://github.com/user-attachments/assets/a557e742-03ba-4373-89a4-26158db5a15e)
 
-### Prediction Capabilities
+
+### Prediction Capabilities Utilizing HMMs and the Sharpe Ratio:
 - Market regime detection
 - Lead-lag relationship analysis
 - Stock pair correlation analysis
-- Volatility and risk assessment
-
-### Technical Analysis Tools
-- Anomaly detection using Z-scores
-- Sector-based analysis
-- Market cap and volume consideration
-- Beta and volatility metrics
+- Volatility and risk-return assessment
+  
+![marketimage](https://github.com/user-attachments/assets/7d1affe8-86f3-47f4-9137-f5295a5c6c29)
 
 ## Technical Architecture
 
@@ -144,7 +128,7 @@ where:
   - `ricci_flow.py`: Ricci curvature calculations
   - `market_analyzer.py`: Market analysis algorithms
   - `regime_analyzer.py`: Market regime detection
-  - `lead_lag_analyzer.py`: Lead-lag relationship analysis
+  - `lead_lag_analyzer.py`: Lead-lag relationship analysis (WIP)
 
 ### Frontend (`/frontend`)
 - **React Framework**: Modern UI implementation
@@ -159,7 +143,7 @@ where:
 ### Prerequisites
 - Python 3.9+
 - Node.js 16+
-- Docker and Docker Compose (optional)
+- Docker and Docker Compose (optional) (still a WIP)
 
 ### Local Development Setup
 
@@ -181,15 +165,6 @@ npm install
 npm start
 ```
 
-## API Endpoints
-
-### Market Analysis
-- `GET /ricci-curvature/`: Calculate Ricci curvature for selected stocks
-- `GET /market-analysis/`: Comprehensive market structure analysis
-- `GET /regime-analysis/`: Detect market regimes
-- `GET /lead-lag-analysis/`: Analyze lead-lag relationships
-- `GET /predictions/`: Generate market predictions
-
 ## Technology Stack
 
 ### Backend
@@ -208,3 +183,4 @@ npm start
 - Axios (API Client)
 - React-Plotly.js (Interactive Charts)
 
+# If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
