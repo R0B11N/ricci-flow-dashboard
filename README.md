@@ -1,8 +1,7 @@
 # Ricci Flow Dashboard: A Geometric Approach to Market Analysis
-## Project Overview
-A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
-
 ![ricciimage](https://github.com/user-attachments/assets/c370969a-488c-4e11-8234-ec0db0d6a9e6)
+
+A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
@@ -16,8 +15,8 @@ The core mathematical concept of note is Ollivier-Ricci curvature, which is a di
 - **Vertices (V):** Individual stocks
 - **Edges (E):** Correlations between stocks
 - **Weight function w:** E → [0,1]
-
-![snetworkimage](https://github.com/user-attachments/assets/94b3c8df-df69-4f6d-988c-2118d02f5554)
+- 
+![snetworkimage](https://github.com/user-attachments/assets/fc77f466-e143-4c3a-a12e-addba1c8cb86)
 
 #### Curvature Definition
 For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defined as:
@@ -62,17 +61,13 @@ governs the evolution of market structure.
 #### Key Theoretical Results
 
 ##### Network Stability
+
+Therein, we can deduce that:
+
 - **Positive curvature:** More sturdy network
 - **Negative curvature:** More fragile network
 - \( κ > 0 \) indicates market stability
 - \( κ < 0 \) suggests potential market stress
-
-##### Regime Detection
-The temporal evolution of Ricci curvature helps identify market regimes:
-
-```math
-R(t) = \frac{\sum_{ij} \kappa_{ij}(t) w_{ij}(t)}{\sum_{ij} w_{ij}(t)}
-```
 
 ### Portfolio Optimization
 Using curvature as a risk measure:
@@ -106,8 +101,8 @@ Additionally, it ensures topological stability by using Ricci curvature to bound
 - Network visualization of stock relationships
 - Ricci curvature calculation for market structure analysis
 - Portfolio optimization based on network metrics
-  
-![marketsimage](https://github.com/user-attachments/assets/a557e742-03ba-4373-89a4-26158db5a15e)
+
+![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
 
 
 ### Prediction Capabilities Utilizing HMMs and the Sharpe Ratio:
@@ -164,6 +159,10 @@ cd frontend
 npm install
 npm start
 ```
+
+3. Additional Notes
+
+If you're prompted with no optimal trading partners or the graph doesn't generate, try using less stock comparisons, or refresh the application.
 
 ## Technology Stack
 
