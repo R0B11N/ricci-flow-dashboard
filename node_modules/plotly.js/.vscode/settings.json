@@ -1,0 +1,12 @@
+{
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "prettier.enable": false,
+    "editor.formatOnSave": true,
+    "eslint.codeActionsOnSave.rules": null,
+    "eslint.run": "onSave",
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}
