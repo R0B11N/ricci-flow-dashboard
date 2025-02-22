@@ -58,96 +58,147 @@ class RegimeAnalyzer:
             logger.error(f"Error in feature preparation: {str(e)}")
             raise ValueError(f"Failed to prepare features: {str(e)}")
 
-    def detect_regimes(self, curvature_history: pd.DataFrame, returns: pd.DataFrame) -> Dict:
+    def detect_regimes(self, curvature_history: pd.DataFrame, returns: pd.DataFrame):
         """
-        Detect market regimes using HMM.
+        Modified regime detection with proper short-term handling
         """
         try:
-            # Ensure we have enough data
-            if len(curvature_history) < 30 or len(returns) < 30:
-                logger.error("Not enough data for regime detection")
-                raise ValueError("Insufficient data for regime detection (minimum 30 data points required)")
+            # Calculate time span
+            time_span = (returns.index[-1] - returns.index[0]).days
+            logger.info(f"Analyzing time span of {time_span} days")
 
-            # Remove any NaN values
-            curvature_history = curvature_history.fillna(method='ffill').fillna(method='bfill')
-            returns = returns.fillna(method='ffill').fillna(method='bfill')
-
-            # Prepare features
-            features = self.prepare_features(curvature_history, returns)
-            
-            if len(features) == 0:
-                raise ValueError("Failed to prepare features for regime detection")
-
-            # Fit HMM and predict regimes
-            self.hmm.fit(features)
-            regimes = self.hmm.predict(features)
-            
-            # Calculate regime characteristics
-            regime_stats = {}
-            for i in range(self.n_regimes):
-                mask = (regimes == i)
-                if np.any(mask):  # Only calculate stats if we have data points for this regime
-                    regime_stats[i] = {
-                        'avg_curvature': float(np.mean(features[mask, 0])),
-                        'avg_dispersion': float(np.mean(features[mask, 1])),
-                        'avg_return': float(np.mean(features[mask, 2])),
-                        'volatility': float(np.std(features[mask, 2])),
-                        'duration': int(np.sum(mask)),
-                        'transitions': int(np.sum(np.diff(regimes) == i))
-                    }
+            # For very short periods (less than 5 days)
+            if len(returns) < 5:  # Check number of data points instead of days
+                logger.info("Short timeframe detected, using simplified regime detection")
+                
+                # Calculate simple metrics
+                daily_ret = returns.mean()
+                daily_vol = returns.std()
+                
+                # Simple regime determination
+                avg_ret = daily_ret.mean()
+                avg_vol = daily_vol.mean()
+                
+                # Determine regime type based on return and volatility
+                if avg_ret > 0:
+                    regime_type = 'stable_bull' if avg_vol < 0.02 else 'volatile_bull'
                 else:
-                    logger.warning(f"No data points found for regime {i}")
-                    regime_stats[i] = {
-                        'avg_curvature': 0.0,
-                        'avg_dispersion': 0.0,
-                        'avg_return': 0.0,
-                        'volatility': 0.0,
-                        'duration': 0,
-                        'transitions': 0
+                    regime_type = 'stable_bear' if avg_vol < 0.02 else 'volatile_bear'
+                
+                # Create regime stats
+                regime_stats = {
+                    0: {
+                        'avg_return': float(avg_ret * 100),  # Convert to percentage
+                        'volatility': float(avg_vol * 100),  # Convert to percentage
+                        'duration': len(returns),  # Use number of data points
+                        'stability': 1.0  # Maximum stability for short period
                     }
-            
-            # Classify regimes
-            regime_types = self._classify_regimes(regime_stats)
-            
-            # Get transition probabilities
-            transitions = self.hmm.transmat_
-            
-            # Calculate regime stability
-            stability = np.diag(transitions)
-            
-            # Convert dates to string format for JSON serialization
-            dates = curvature_history.index.strftime('%Y-%m-%d').tolist()
-            
-            return {
-                'regimes': regimes.tolist(),
-                'regime_stats': regime_stats,
-                'regime_types': regime_types,
-                'transition_matrix': transitions.tolist(),
-                'stability': stability.tolist(),
-                'dates': dates
-            }
-            
+                }
+                
+                logger.info(f"Short-term regime detected: {regime_type}")
+                
+                return {
+                    'regimes': [0] * len(returns),
+                    'regime_stats': regime_stats,
+                    'regime_types': {0: regime_type},
+                    'transition_matrix': [[1.0]],  # No transitions for short period
+                    'stability': [1.0],
+                    'dates': returns.index.strftime('%Y-%m-%d').tolist()
+                }
+                
+            # For longer periods, use the HMM approach
+            else:
+                # Original regime detection logic for longer periods
+                # Ensure we have enough data
+                if len(curvature_history) < 30 or len(returns) < 30:
+                    logger.error("Not enough data for HMM regime detection")
+                    raise ValueError("Insufficient data for regime detection (minimum 30 data points required)")
+
+                # Remove any NaN values
+                curvature_history = curvature_history.fillna(method='ffill').fillna(method='bfill')
+                returns = returns.fillna(method='ffill').fillna(method='bfill')
+
+                # Prepare features
+                features = self.prepare_features(curvature_history, returns)
+                
+                if len(features) == 0:
+                    raise ValueError("Failed to prepare features for regime detection")
+
+                # Fit HMM and predict regimes
+                self.hmm.fit(features)
+                regimes = self.hmm.predict(features)
+                
+                # Calculate regime characteristics
+                regime_stats = {}
+                for i in range(self.n_regimes):
+                    mask = (regimes == i)
+                    if np.any(mask):  # Only calculate stats if we have data points for this regime
+                        regime_stats[i] = {
+                            'avg_curvature': float(np.mean(features[mask, 0])),
+                            'avg_dispersion': float(np.mean(features[mask, 1])),
+                            'avg_return': float(np.mean(features[mask, 2])),
+                            'volatility': float(np.std(features[mask, 2])),
+                            'duration': int(np.sum(mask)),
+                            'transitions': int(np.sum(np.diff(regimes) == i))
+                        }
+                    else:
+                        logger.warning(f"No data points found for regime {i}")
+                        regime_stats[i] = {
+                            'avg_curvature': 0.0,
+                            'avg_dispersion': 0.0,
+                            'avg_return': 0.0,
+                            'volatility': 0.0,
+                            'duration': 0,
+                            'transitions': 0
+                        }
+                
+                # Classify regimes
+                regime_types = self._classify_regimes(regime_stats)
+                
+                # Get transition probabilities
+                transitions = self.hmm.transmat_
+                
+                # Calculate regime stability
+                stability = np.diag(transitions)
+                
+                # Convert dates to string format for JSON serialization
+                dates = curvature_history.index.strftime('%Y-%m-%d').tolist()
+                
+                return {
+                    'regimes': regimes.tolist(),
+                    'regime_stats': regime_stats,
+                    'regime_types': regime_types,
+                    'transition_matrix': transitions.tolist(),
+                    'stability': stability.tolist(),
+                    'dates': dates
+                }
+
         except Exception as e:
             logger.error(f"Error in regime detection: {str(e)}")
             raise ValueError(f"Failed to detect market regimes: {str(e)}")
 
     def _classify_regimes(self, regime_stats: Dict) -> Dict[int, str]:
         """
-        Classify regimes as bull, bear, or transition based on characteristics.
+        Enhanced regime classification with proper thresholds
         """
         classifications = {}
         
         for regime_id, stats in regime_stats.items():
-            # Classify based on return and curvature characteristics
-            if stats['avg_return'] > 0 and stats['avg_curvature'] > 0:
-                regime_type = 'bull'
-            elif stats['avg_return'] < 0 and stats['avg_curvature'] < 0:
-                regime_type = 'bear'
-            else:
-                regime_type = 'transition'
-                
-            classifications[regime_id] = regime_type
+            ret = stats['avg_return']  # Already in percentage
+            vol = stats['volatility']  # Already in percentage
             
+            # Classification based on daily metrics
+            if ret > 0:
+                if vol < 1.0:  # 1% daily volatility threshold
+                    classifications[regime_id] = 'stable_bull'
+                else:
+                    classifications[regime_id] = 'volatile_bull'
+            else:
+                if vol < 1.0:
+                    classifications[regime_id] = 'stable_bear'
+                else:
+                    classifications[regime_id] = 'volatile_bear'
+        
         return classifications
 
     def get_current_regime(self, 

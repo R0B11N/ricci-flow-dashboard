@@ -4,7 +4,19 @@ import pandas as pd
 from GraphRicciCurvature.OllivierRicci import OllivierRicci
 
 def compute_ricci_curvature(stock_data):
-    """Constructs a financial correlation network and computes Ricci curvature."""
+    """Modified for short time periods"""
+    if (stock_data.index[-1] - stock_data.index[0]).days < 5:
+        # Use simple correlation for very short periods
+        corr_matrix = stock_data.corr()
+        curvature_dict = {}
+        for i, stock1 in enumerate(corr_matrix.columns):
+            for j, stock2 in enumerate(corr_matrix.columns):
+                if i < j:
+                    key = f"{stock1}-{stock2}"
+                    # Convert correlation directly to curvature
+                    curvature_dict[key] = 2 * abs(corr_matrix.loc[stock1, stock2]) - 1
+        return pd.Series(curvature_dict)
+    
     if stock_data.shape[1] < 2:
         raise ValueError("Need at least 2 stocks to compute correlation")
         

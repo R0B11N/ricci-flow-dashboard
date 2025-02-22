@@ -120,50 +120,53 @@ async def analyze_market(tickers: str, start: str = "2020-01-01", end: str = "20
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/regime-analysis/")
-async def analyze_regimes(tickers: str, start: str = "2020-01-01", end: str = None):
+async def analyze_regimes(tickers: str, start: str, end: str):
     try:
-        # Parse tickers
-        ticker_list = [t.strip().upper() for t in tickers.split(',') if t.strip()]
+        # Add input validation
+        start_date = datetime.strptime(start, "%Y-%m-%d")
+        end_date = datetime.strptime(end, "%Y-%m-%d")
+        time_delta = end_date - start_date
         
-        # Set end date to today if not provided
-        if not end:
-            end = datetime.now().strftime("%Y-%m-%d")
-            
-        # Fetch stock data
-        stock_data = fetch_stock_data(ticker_list, start, end)
-        if not stock_data:
+        logger.info(f"Analyzing regimes for {tickers} from {start} to {end}")
+        logger.info(f"Time span: {time_delta.days} days")
+        
+        # Fetch data
+        stock_data = fetch_stock_data(tickers.split(','), start, end)
+        if not stock_data or 'prices' not in stock_data:
             raise HTTPException(status_code=404, detail="Failed to fetch stock data")
-            
-        # Calculate returns and prepare curvature history
-        returns = stock_data['prices'].pct_change().dropna()
         
-        # Create curvature history DataFrame
+        # Log data shape
+        prices_df = stock_data['prices']
+        logger.info(f"Data shape: {prices_df.shape}")
+        
+        if len(prices_df) < 2:
+            raise HTTPException(
+                status_code=400,
+                detail="Insufficient data points. Need at least 2 data points."
+            )
+        
+        # Calculate returns
+        returns = prices_df.pct_change().dropna()
+        
+        # Create curvature history for short periods
         curvature_history = pd.DataFrame()
-        window_size = 30  # 30-day rolling window
+        for i, stock1 in enumerate(returns.columns):
+            for j, stock2 in enumerate(returns.columns):
+                if i < j:
+                    pair = f"{stock1}-{stock2}"
+                    # For short periods, use simple correlation
+                    curvature_history[pair] = returns[stock1].rolling(
+                        min(len(returns), 2)
+                    ).corr(returns[stock2])
         
-        # Calculate rolling correlations for each pair
-        for i in range(len(ticker_list)):
-            for j in range(i + 1, len(ticker_list)):
-                pair = f"{ticker_list[i]}-{ticker_list[j]}"
-                rolling_corr = returns[ticker_list[i]].rolling(window=window_size).corr(returns[ticker_list[j]])
-                curvature_history[pair] = rolling_corr
-                
         # Detect regimes
         regime_results = regime_analyzer.detect_regimes(curvature_history, returns)
         
-        if regime_results is None:
-            raise HTTPException(status_code=500, detail="Failed to detect market regimes")
-            
-        return {
-            "status": "success",
-            "regimes": regime_results['regimes'],
-            "regime_stats": regime_results['regime_stats'],
-            "regime_types": regime_results['regime_types'],
-            "transition_matrix": regime_results['transition_matrix'],
-            "stability": regime_results['stability'],
-            "dates": regime_results['dates']
-        }
+        return regime_results
         
+    except ValueError as e:
+        logger.error(f"Value error in regime analysis: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Error in regime analysis: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
