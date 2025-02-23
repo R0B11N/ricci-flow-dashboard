@@ -3,6 +3,10 @@
 
 A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
 
+### Abstract
+
+Imagine the stock market visualized as a flexible geometric surface (like a plastic sheet!) where each point represents a collection of stock prices, the shape of the surface tells us about market behavior, and curvature measures how this shape deviates from being flat. Consider the outputs in backend/market_visualizer/output to demonstrate how we model our stock market. 
+
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
 ### Theoretical Background
