@@ -14,13 +14,6 @@ class MarketAnalyzer:
     def detect_anomalies(self, 
                         curvature_data: Dict[str, float], 
                         historical_curvatures: pd.DataFrame) -> List[Dict]:
-        """
-        Detect market anomalies based on sudden changes in Ricci curvature.
-        
-        Args:
-            curvature_data: Current curvature values for each edge
-            historical_curvatures: DataFrame of historical curvature values
-        """
         try:
             anomalies = []
             
@@ -54,9 +47,6 @@ class MarketAnalyzer:
                          min_sharpe: float = 0.5,  # Lowered from default
                          target_risk: float = 0.2,  # Adjusted target risk
                          max_pairs: int = 10) -> List[Dict]:
-        """
-        Find optimal trading pairs based on curvature and market metrics.
-        """
         try:
             pairs = []
             
