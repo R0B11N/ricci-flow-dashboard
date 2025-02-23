@@ -5,8 +5,20 @@ A sophisticated financial analysis platform leveraging differential geometry con
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
+### Abstract
+
+Imagine the stock market visualized as a flexible geometric surface (like a plastic sheet!) where each point represents a collection of stock prices, the shape of the surface tells us about market behavior, and curvature measures how this shape deviates from being flat. Consider the outputs in backend/market_visualizer/output to demonstrate how we model our stock market.
+
+Representing the market as a geometric surface where peaks and valleys show how stocks move together or apart - similar to the plastic sheet we referred to that has connected points that rise when stocks do well (creating mountains) and sink when they struggle (forming valleys), while the lines between stocks show how closely they move together, giving us a 3D map of market behavior and relationships. 
+
+On this geometric representation (one of many), we can observe different market regimes or states - like how during a bull market the surface forms mostly peaks showing widespread optimism, or during a crisis it creates deep valleys indicating market-wide stress.
+
+The bending or curvature of this surface (mathematically called Ricci curvature) helps us measure market stability - a highly curved surface suggests market stress, while a flatter surface indicates more stable conditions. Therein- this visual approach makes complex market analysis more notable, helping us see patterns and relationships that might be hidden in traditional stock charts and numbers.
+
+![peaksimage](https://github.com/user-attachments/assets/b3b2bfdc-c0fd-48f1-b1f6-d619b35e102e)
+
 ### Theoretical Background
-This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics.
+This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Using the geometric surface rhetoric, we can do some cool operations with Riemannian Geometry to create real market predictions.
 
 ### Ollivier-Ricci Curvature
 The core mathematical concept of note is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
@@ -26,8 +38,8 @@ For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defi
 where:
 
 -  W<sub>1</sub> is the Wasserstein-1 (transportation) distance
--  μ<sub>x</sub>, μ<sub>y</sub> are probability measures
--  d(x,y) is the geodesic distance
+-  μ<sub>x</sub>, μ<sub>y</sub> are probability measures representing local mass distributions
+-  d(x,y) is the shortest-path distance in the weighted network
 
 ### Application to Financial Markets
 
@@ -105,13 +117,14 @@ Additionally, it ensures topological stability by using Ricci curvature to bound
 ![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
 
 
-### Prediction Capabilities Utilizing HMMs and the Sharpe Ratio:
+### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
 - Market regime detection
 - Lead-lag relationship analysis
 - Stock pair correlation analysis
 - Volatility and risk-return assessment
   
-![marketimage](https://github.com/user-attachments/assets/7d1affe8-86f3-47f4-9137-f5295a5c6c29)
+![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+
 
 ## Technical Architecture
 
@@ -186,4 +199,4 @@ If you're prompted with no optimal trading partners or the graph doesn't generat
 
 Monte Carlo simulations were conducted on the Ricci Flow Curvature, and the analytics can be found under /notebooks -> simulations.ipynb
 
-# If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
+### If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
