@@ -2,6 +2,8 @@
 
 ![riccistonksimage](https://github.com/user-attachments/assets/e8e016b9-69bc-466f-94ba-3685ca74c5a4)
 
+---
+
 A financial analysis platform that applies differential geometry, particularly Ricci curvature, to model stock market dynamics and predict future trends.
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
@@ -18,7 +20,11 @@ On this geometric representation (one of many), we can observe different market 
 
 The bending or curvature of this surface (mathematically called Ricci curvature) helps us measure market stability - a highly curved surface suggests market stress, while a flatter surface indicates more stable conditions. Therein- this visual approach makes complex market analysis more notable, helping us see patterns and relationships that might be hidden in traditional stock charts and numbers.
 
+---
+
 ![peaksimage](https://github.com/user-attachments/assets/b3b2bfdc-c0fd-48f1-b1f6-d619b35e102e)
+
+---
 
 ### Theoretical Background
 This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. 
@@ -36,8 +42,12 @@ The core mathematical concept of note is Ollivier-Ricci curvature, which is a di
 - **Vertices (V):** Individual stocks
 - **Edges (E):** Correlations between stocks
 - **Weight function w:** E → [0,1]
-  
+
+---
+
 ![snetworkimage](https://github.com/user-attachments/assets/fc77f466-e143-4c3a-a12e-addba1c8cb86)
+
+---
 
 #### Curvature Definition
 For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defined as:
@@ -122,10 +132,12 @@ Within the model:
 - Portfolio Optimization: Curvature is used as a risk constraint, ensuring investments stay in stable regions by selecting assets that maintain a minimum curvature threshold, reducing exposure to fragile market conditions.
 
 ---
-
 ![toptradingpairsimage](https://github.com/user-attachments/assets/02711bda-097c-4c68-8e6e-dab7d002991f)
 
+---
+
 ![performingpairsimage](https://github.com/user-attachments/assets/27918d76-0ff0-4184-bcbb-fa2183c9fbeb)
+
 ---
 
 ## Features
@@ -136,6 +148,8 @@ Within the model:
 - Ricci curvature calculation for market structure analysis
 - Portfolio optimization based on network metrics
 
+---
+
 ![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
 
 ---
@@ -145,7 +159,9 @@ Within the model:
 - Lead-lag relationship analysis
 - Stock pair correlation analysis
 - Volatility and risk-return assessment
-  
+
+---
+
 ![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
 
 ---
@@ -153,9 +169,15 @@ Within the model:
 ## Applicability
 
 ## Future Regime Predictor
+--- 
 
 ![futuresimage](https://github.com/user-attachments/assets/2d83ff3d-ae71-46a5-b97a-375eb376dcad)
+
+---
+
 ![futuresiiimage](https://github.com/user-attachments/assets/04832ed3-12a8-420f-b295-447baec0b5f9)
+
+---
 
 The future regime predictor employs a hybrid approach combining geometric flow analysis with Hidden Markov Models. The system analyzes market topology through sectoral Ricci curvature and geodesic flows.
 
