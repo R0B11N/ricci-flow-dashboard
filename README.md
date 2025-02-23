@@ -135,8 +135,15 @@ Additionally, it ensures topological stability by using Ricci curvature to bound
   - `data_fetcher.py`: Yahoo Finance integration
   - `ricci_flow.py`: Ricci curvature calculations
   - `market_analyzer.py`: Market analysis algorithms
-  - `regime_analyzer.py`: Market regime detection
+  - `market_regime_analyzer.py`: Stock Pair - Time Regime Analysis
+  - `regime_analyzer.py`: Future market regime detection
+  -  `geometric_regime_analyzer.py`: Advanced regime detection using Hidden Markov Models (HMM) and geometric features:
+    - Multi-dimensional feature extraction from market data
+    - Regime classification (Stable/Volatile Bull/Bear)
+    - Transition probability matrices
+    - Stability metrics based on eigenvalue analysis
   - `lead_lag_analyzer.py`: Lead-lag relationship analysis (WIP)
+    
 
 ### Frontend (`/frontend`)
 - **React Framework**: Modern UI implementation
