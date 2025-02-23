@@ -6,6 +6,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Initially remade the regime_analyzer py file, but it was not working, took an old version and re-grafted it to work
+
 class MarketRegimeAnalyzer:
     def __init__(self):
         self.hmm = hmm.GaussianHMM(
