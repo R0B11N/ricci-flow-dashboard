@@ -2,7 +2,7 @@
 
 ![riccistonksimage](https://github.com/user-attachments/assets/e8e016b9-69bc-466f-94ba-3685ca74c5a4)
 
-A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
+A financial analysis platform that applies differential geometry, particularly Ricci curvature, to model stock market dynamics and predict future trends.
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
@@ -19,7 +19,9 @@ The bending or curvature of this surface (mathematically called Ricci curvature)
 ![peaksimage](https://github.com/user-attachments/assets/b3b2bfdc-c0fd-48f1-b1f6-d619b35e102e)
 
 ### Theoretical Background
-This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Using the geometric surface rhetoric, we can do some cool operations with Riemannian Geometry to create real market predictions.
+This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. 
+
+By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
 
 ### Ollivier-Ricci Curvature
 The core mathematical concept of note is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
@@ -235,20 +237,25 @@ Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how m
 1. Backend Setup
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
 pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 5000
-# OR
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+# ONLY THEN YOU CAN DO:
 python -m uvicorn main:app --reload
+# Any dependency issues can be adjusted in the requirements file. YFinance on a trial run had to be updated.
+If YF doesn't work, do:
+pip install yfinance --upgrade
 ```
+![backendimage](https://github.com/user-attachments/assets/bddb3f21-5a59-430a-a43f-12727b5be6d5)
 
 2. Frontend Setup
 ```bash
 cd frontend
 npm install
 npm start
+# wait a bit, make sure the backend is running first
 ```
+![hooplaimage](https://github.com/user-attachments/assets/20815c0c-e364-4990-accf-8785f967f08d)
+![WOOHOOimage](https://github.com/user-attachments/assets/d1a68762-9ca6-4ad6-b3ad-b093eee65ca9)
 
 3. Additional Notes
 
