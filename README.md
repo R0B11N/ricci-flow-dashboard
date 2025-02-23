@@ -1,5 +1,6 @@
 # Ricci Flow Dashboard: A Geometric Approach to Market Analysis
-![ricciimage](https://github.com/user-attachments/assets/c370969a-488c-4e11-8234-ec0db0d6a9e6)
+
+![riccistonksimage](https://github.com/user-attachments/assets/e8e016b9-69bc-466f-94ba-3685ca74c5a4)
 
 A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
 
@@ -105,6 +106,75 @@ Additionally, it ensures topological stability by using Ricci curvature to bound
 ![toptradingpairsimage](https://github.com/user-attachments/assets/02711bda-097c-4c68-8e6e-dab7d002991f)
 
 ![performingpairsimage](https://github.com/user-attachments/assets/27918d76-0ff0-4184-bcbb-fa2183c9fbeb)
+
+# Applicability
+
+## Future Regime Predictor
+
+![futuresimage](https://github.com/user-attachments/assets/2d83ff3d-ae71-46a5-b97a-375eb376dcad)
+![futuresiiimage](https://github.com/user-attachments/assets/04832ed3-12a8-420f-b295-447baec0b5f9)
+
+The future regime predictor employs a hybrid approach combining geometric flow analysis with Hidden Markov Models. The system analyzes market topology through sectoral Ricci curvature and geodesic flows.
+
+The sectoral Ricci tensor computation (referenced in `geometric_regime_analyzer.py`) follows the standard formula for our geodesic flow analysis, where the market evolution is governed by the modified Ricci flow equation:
+
+```math
+\frac{\partial g_{ij}}{\partial t} = -2R_{ij} + \nabla_i X_j + \nabla_j X_i
+```
+
+where:
+- \( g<sub>ij</sub>} \) is the metric tensor
+- \( R<sub>ij</sub>} \) is the Ricci tensor
+- \( X<sub>i</sub> \) represents the sectoral velocity field
+
+#### Regime Transition Dynamics
+
+The regime transition probability is computed using a combination of geometric and statistical features:
+
+The system incorporates:
+
+1. **Sectoral Velocity Fields**: Derived from the Ricci flow equation
+   
+2. **Market State Tensors**: Constructed from:
+   - Rolling volatility metrics
+   - Cross-sectional dispersion
+   - Correlation structure evolution
+
+#### Metric Evolution
+
+The metric tensor evolution follows a modified Hamilton-DeTurck flow:
+
+```math
+\frac{\partial}{\partial t} g_{\alpha\beta} = -2R_{\alpha\beta} + \mathcal{L}_W g_{\alpha\beta}
+```
+
+where:
+```math
+\mathcal{L}_W g_{\alpha\beta} = \nabla_{\alpha} W_{\beta} + \nabla_{\beta} W_{\alpha}
+```
+represents the Lie derivative along the chosen vector field W<sub>β</sub> ensuring gauge-fixing.
+
+If X<sub>i</sub> and V<sub>α</sub> are meant to represent sectoral velocity fields, we unify notation as follows:
+```math
+\frac{\partial g_{ij}}{\partial t} = -2R_{ij} + \nabla_{i} W_{j} + \nabla_{j} W_{i}
+```
+to maintain consistency across formulations.
+
+
+#### Prediction Confidence Metrics
+
+The system employs multiple confidence metrics:
+- Eigenvalue stability of the transition matrix
+- Geometric entropy of the market state
+- Cross-validation with HMM predictions
+
+This mathematical framework allows us to:
+1. Identify regime transition probabilities
+2. Quantify prediction confidence
+3. Generate sector-specific movement forecasts
+4. Estimate regime stability metrics
+
+Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how market conditions change over time. The equations help measure shifts in market structure, while the model uses patterns in volatility, correlations, and sector movements to predict future regime changes. This approach helps identify market shifts early, giving a clearer picture of potential trends before they fully develop.
 
 ## Features
 
