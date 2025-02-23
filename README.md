@@ -242,7 +242,7 @@ python -m uvicorn main:app --host 0.0.0.0 --port 8000
 # ONLY THEN YOU CAN DO:
 python -m uvicorn main:app --reload
 # Any dependency issues can be adjusted in the requirements file. YFinance on a trial run had to be updated.
-If YF doesn't work, do:
+# If YF doesn't work, do:
 pip install yfinance --upgrade
 ```
 ![backendimage](https://github.com/user-attachments/assets/bddb3f21-5a59-430a-a43f-12727b5be6d5)
