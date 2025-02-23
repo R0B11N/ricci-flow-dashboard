@@ -9,7 +9,10 @@
     "react-dom": "^18.2.0",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "@mui/material": "^5.x",
+    "@emotion/react": "^11.x",
+    "@emotion/styled": "^11.x"
   },
   "scripts": {
     "start": "set BROWSER=none && react-scripts start",
