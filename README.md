@@ -128,6 +128,7 @@ where:
 - \( g<sub>ij</sub> \) is the metric tensor
 - \( R<sub>ij</sub> \) is the Ricci tensor
 - \( X<sub>i</sub> \) represents the sectoral velocity field
+- \( ∇<sub>ij</sub? \) represents the covariant derivative w.r.t coordinate i,j
 
 #### Regime Transition Dynamics
 
