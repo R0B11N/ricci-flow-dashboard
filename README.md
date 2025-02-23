@@ -3,11 +3,17 @@
 
 A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
 
+## Mathematical Foundation: Ricci Flow and Financial Networks
+
 ### Abstract
 
-Imagine the stock market visualized as a flexible geometric surface (like a plastic sheet!) where each point represents a collection of stock prices, the shape of the surface tells us about market behavior, and curvature measures how this shape deviates from being flat. Consider the outputs in backend/market_visualizer/output to demonstrate how we model our stock market. 
+Imagine the stock market visualized as a flexible geometric surface (like a plastic sheet!) where each point represents a collection of stock prices, the shape of the surface tells us about market behavior, and curvature measures how this shape deviates from being flat. Consider the outputs in backend/market_visualizer/output to demonstrate how we model our stock market.
 
-## Mathematical Foundation: Ricci Flow and Financial Networks
+Representing the market as a geometric surface where peaks and valleys show how stocks move together or apart - similar to the plastic sheet we referred to that has connected points that rise when stocks do well (creating mountains) and sink when they struggle (forming valleys), while the lines between stocks show how closely they move together, giving us a 3D map of market behavior and relationships. On this geometric representation, we can observe different market regimes or states - like how during a bull market the surface forms mostly peaks showing widespread optimism, or during a crisis it creates deep valleys indicating market-wide stress.
+
+The bending or curvature of this surface (mathematically called Ricci curvature) helps us measure market stability - a highly curved surface suggests market stress, while a flatter surface indicates more stable conditions. Therein- this visual approach makes complex market analysis more notable, helping us see patterns and relationships that might be hidden in traditional stock charts and numbers.
+
+![peaksimage](https://github.com/user-attachments/assets/b3b2bfdc-c0fd-48f1-b1f6-d619b35e102e)
 
 ### Theoretical Background
 This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics.
