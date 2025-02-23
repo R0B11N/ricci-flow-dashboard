@@ -38,8 +38,8 @@ For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defi
 where:
 
 -  W<sub>1</sub> is the Wasserstein-1 (transportation) distance
--  μ<sub>x</sub>, μ<sub>y</sub> are probability measures
--  d(x,y) is the geodesic distance
+-  μ<sub>x</sub>, μ<sub>y</sub> are probability measures representing local mass distributions
+-  d(x,y) is the shortest-path distance in the weighted network
 
 ### Application to Financial Markets
 
