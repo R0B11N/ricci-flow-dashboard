@@ -53,14 +53,6 @@ def validate_date(date_str: str) -> bool:
 
 @app.get("/ricci-curvature/")
 async def get_ricci_curvature(tickers: str, start: str = "2020-01-01", end: str = "2024-01-01"):
-    """
-    Compute Ricci curvature for selected stocks.
-    
-    Args:
-        tickers: Comma-separated list of stock tickers (e.g., "AAPL,GOOGL,MSFT")
-        start: Start date in YYYY-MM-DD format
-        end: End date in YYYY-MM-DD format
-    """
     try:
         # Parse tickers
         ticker_list = [t.strip().upper() for t in tickers.split(',') if t.strip()]
@@ -419,11 +411,9 @@ async def analyze_future_regime(request: RegimeAnalysisRequest):
 
 @app.get("/sectors/")
 async def get_valid_sectors():
-    """Return the list of valid sectors from DataFetcher"""
     return {"sectors": VALID_SECTORS}
 
 async def get_sector_representatives(sectors: List[str]) -> List[str]:
-    """Get representative stocks for each sector"""
     sector_mapping = {
         'Technology': ['AAPL', 'MSFT', 'NVDA', 'AMD', 'INTC'],
         'Financial': ['JPM', 'BAC', 'GS', 'MS', 'WFC'],
@@ -446,7 +436,6 @@ async def get_sector_representatives(sectors: List[str]) -> List[str]:
     return selected_stocks
 
 def create_sector_indices(prices_df: pd.DataFrame, sector_stocks: List[str]) -> pd.DataFrame:
-    """Create market-cap weighted sector indices"""
     sector_indices = pd.DataFrame(index=prices_df.index)
     
     # Get market cap data for weighting
