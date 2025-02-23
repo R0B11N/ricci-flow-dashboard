@@ -1,15 +1,18 @@
 from fastapi import FastAPI, HTTPException
-from typing import List
-from datetime import datetime
+from typing import List, Dict
+from datetime import datetime, timedelta
 import logging
 from ricci_flow import compute_ricci_curvature
-from data_fetcher import fetch_stock_data
+from data_fetcher import fetch_stock_data, DataFetcher
 from fastapi.middleware.cors import CORSMiddleware
 from market_analyzer import MarketAnalyzer
 from regime_analyzer import RegimeAnalyzer
 import pandas as pd
 from lead_lag_analyzer import LeadLagAnalyzer
 import numpy as np
+import yfinance as yf
+from pydantic import BaseModel
+from market_regime_analyzer import MarketRegimeAnalyzer
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -31,6 +34,15 @@ app.add_middleware(
 market_analyzer = MarketAnalyzer()
 regime_analyzer = RegimeAnalyzer()
 lead_lag_analyzer = LeadLagAnalyzer()
+
+# Correct initialization
+data_fetcher = DataFetcher()
+
+# Get the sector list from DataFetcher
+VALID_SECTORS = list(data_fetcher.sector_tickers.keys())
+
+# Initialize the analyzer
+market_regime_analyzer = MarketRegimeAnalyzer()
 
 def validate_date(date_str: str) -> bool:
     try:
@@ -148,19 +160,8 @@ async def analyze_regimes(tickers: str, start: str, end: str):
         # Calculate returns
         returns = prices_df.pct_change().dropna()
         
-        # Create curvature history for short periods
-        curvature_history = pd.DataFrame()
-        for i, stock1 in enumerate(returns.columns):
-            for j, stock2 in enumerate(returns.columns):
-                if i < j:
-                    pair = f"{stock1}-{stock2}"
-                    # For short periods, use simple correlation
-                    curvature_history[pair] = returns[stock1].rolling(
-                        min(len(returns), 2)
-                    ).corr(returns[stock2])
-        
-        # Detect regimes
-        regime_results = regime_analyzer.detect_regimes(curvature_history, returns)
+        # Use the new market regime analyzer
+        regime_results = market_regime_analyzer.analyze_market_regimes(returns)
         
         return regime_results
         
@@ -369,3 +370,127 @@ async def get_predictions(tickers: str, start: str = "2020-01-01", end: str = No
             status_code=500,
             detail=f"Failed to generate predictions: {str(e)}"
         )
+
+class RegimeAnalysisRequest(BaseModel):
+    sectors: List[str]
+    timeframe: int
+
+@app.post("/future-regime-analysis/")
+async def analyze_future_regime(request: RegimeAnalysisRequest):
+    try:
+        # Validate sectors against the list from DataFetcher
+        invalid_sectors = [s for s in request.sectors if s not in VALID_SECTORS]
+        if invalid_sectors:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Invalid sectors: {invalid_sectors}. Valid sectors are: {VALID_SECTORS}"
+            )
+        
+        logger.info(f"Analyzing sectors: {request.sectors}")
+        
+        # Get sector data using the sector tickers from DataFetcher
+        sector_indices = data_fetcher.get_sector_indices(request.sectors)
+        if sector_indices is None:
+            raise HTTPException(status_code=500, detail="Failed to fetch sector data")
+            
+        # Calculate returns
+        returns = sector_indices.pct_change().fillna(0)
+        
+        # Calculate curvature
+        curvature = data_fetcher.calculate_curvature(returns)
+        
+        # Analyze regime
+        regime_analysis = regime_analyzer.analyze_regime(
+            sector_indices=sector_indices,
+            returns=returns,
+            curvature_history=curvature,
+            timeframe=request.timeframe
+        )
+        
+        if regime_analysis is None:
+            raise HTTPException(status_code=500, detail="Failed to analyze regime")
+            
+        return {"regime_analysis": regime_analysis}
+        
+    except Exception as e:
+        logger.error(f"Error in analyze_future_regime: {str(e)}")
+        logger.exception("Full traceback:")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/sectors/")
+async def get_valid_sectors():
+    """Return the list of valid sectors from DataFetcher"""
+    return {"sectors": VALID_SECTORS}
+
+async def get_sector_representatives(sectors: List[str]) -> List[str]:
+    """Get representative stocks for each sector"""
+    sector_mapping = {
+        'Technology': ['AAPL', 'MSFT', 'NVDA', 'AMD', 'INTC'],
+        'Financial': ['JPM', 'BAC', 'GS', 'MS', 'WFC'],
+        'Healthcare': ['JNJ', 'UNH', 'PFE', 'ABBV', 'MRK'],
+        'Consumer_Cyclical': ['AMZN', 'TSLA', 'HD', 'NKE', 'MCD'],
+        'Communication': ['GOOGL', 'META', 'NFLX', 'DIS', 'CMCSA'],
+        'Industrial': ['CAT', 'BA', 'HON', 'UPS', 'GE'],
+        'Consumer_Defensive': ['PG', 'KO', 'PEP', 'WMT', 'COST'],
+        'Energy': ['XOM', 'CVX', 'COP', 'SLB', 'EOG'],
+        'Basic_Materials': ['LIN', 'APD', 'ECL', 'NEM', 'FCX'],
+        'Real_Estate': ['AMT', 'PLD', 'CCI', 'EQIX', 'PSA'],
+        'Utilities': ['NEE', 'DUK', 'SO', 'D', 'AEP']
+    }
+    
+    selected_stocks = []
+    for sector in sectors:
+        if sector in sector_mapping:
+            selected_stocks.extend(sector_mapping[sector][:2])  # Take top 2 from each sector
+    
+    return selected_stocks
+
+def create_sector_indices(prices_df: pd.DataFrame, sector_stocks: List[str]) -> pd.DataFrame:
+    """Create market-cap weighted sector indices"""
+    sector_indices = pd.DataFrame(index=prices_df.index)
+    
+    # Get market cap data for weighting
+    market_caps = {}
+    for ticker in sector_stocks:
+        try:
+            stock = yf.Ticker(ticker)
+            market_caps[ticker] = stock.info.get('marketCap', 1e9)  # default to 1B if not found
+        except:
+            market_caps[ticker] = 1e9  # default to 1B on error
+    
+    # Create sector indices
+    sector_mapping = {
+        'Technology': ['AAPL', 'MSFT', 'NVDA', 'AMD', 'INTC'],
+        'Financial': ['JPM', 'BAC', 'GS', 'MS', 'WFC'],
+        'Healthcare': ['JNJ', 'UNH', 'PFE', 'ABBV', 'MRK'],
+        'Consumer_Cyclical': ['AMZN', 'TSLA', 'HD', 'NKE', 'MCD'],
+        'Communication': ['GOOGL', 'META', 'NFLX', 'DIS', 'CMCSA'],
+        'Industrial': ['CAT', 'BA', 'HON', 'UPS', 'GE'],
+        'Consumer_Defensive': ['PG', 'KO', 'PEP', 'WMT', 'COST'],
+        'Energy': ['XOM', 'CVX', 'COP', 'SLB', 'EOG'],
+        'Basic_Materials': ['LIN', 'APD', 'ECL', 'NEM', 'FCX'],
+        'Real_Estate': ['AMT', 'PLD', 'CCI', 'EQIX', 'PSA'],
+        'Utilities': ['NEE', 'DUK', 'SO', 'D', 'AEP']
+    }
+    
+    # Create reverse mapping from stock to sector
+    stock_to_sector = {}
+    for sector, stocks in sector_mapping.items():
+        for stock in stocks:
+            stock_to_sector[stock] = sector
+    
+    # Calculate sector indices
+    for sector in set(stock_to_sector[stock] for stock in sector_stocks):
+        sector_stocks_list = [s for s in sector_stocks if stock_to_sector[s] == sector]
+        if sector_stocks_list:
+            # Get market caps for sector stocks
+            sector_caps = {s: market_caps[s] for s in sector_stocks_list}
+            total_cap = sum(sector_caps.values())
+            weights = {s: cap/total_cap for s, cap in sector_caps.items()}
+            
+            # Calculate weighted index
+            sector_index = sum(prices_df[stock] * weights[stock] 
+                             for stock in sector_stocks_list)
+            sector_indices[sector] = sector_index
+    
+    return sector_indices
