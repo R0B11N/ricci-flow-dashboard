@@ -115,13 +115,14 @@ Additionally, it ensures topological stability by using Ricci curvature to bound
 ![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
 
 
-### Prediction Capabilities Utilizing HMMs and the Sharpe Ratio:
+### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
 - Market regime detection
 - Lead-lag relationship analysis
 - Stock pair correlation analysis
 - Volatility and risk-return assessment
   
-![marketimage](https://github.com/user-attachments/assets/7d1affe8-86f3-47f4-9137-f5295a5c6c29)
+![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+
 
 ## Technical Architecture
 
