@@ -123,8 +123,8 @@ The sectoral Ricci tensor computation (referenced in `geometric_regime_analyzer.
 ```
 
 where:
-- \( g<sub>ij</sub>} \) is the metric tensor
-- \( R<sub>ij</sub>} \) is the Ricci tensor
+- \( g<sub>ij</sub> \) is the metric tensor
+- \( R<sub>ij</sub> \) is the Ricci tensor
 - \( X<sub>i</sub> \) represents the sectoral velocity field
 
 #### Regime Transition Dynamics
