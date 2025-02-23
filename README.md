@@ -199,4 +199,4 @@ If you're prompted with no optimal trading partners or the graph doesn't generat
 
 Monte Carlo simulations were conducted on the Ricci Flow Curvature, and the analytics can be found under /notebooks -> simulations.ipynb
 
-# If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
+### If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
