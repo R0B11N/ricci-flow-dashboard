@@ -3,8 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from typing import List
+from typing import List, Dict
 import logging
+from data_fetcher import DataFetcher, fetch_stock_data
+from market_regime_analyzer import MarketRegimeAnalyzer
+from geometric_regime_analyzer import GeometricRegimePredictor
+from datetime import datetime
 
 app = FastAPI()
 
@@ -21,8 +25,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Initialize components
+data_fetcher = DataFetcher()  # Create DataFetcher instance
+market_regime_analyzer = MarketRegimeAnalyzer()
+
 def get_stock_info(ticker_list):
-    """Fetch additional stock information."""
     info = {
         "market_caps": {},
         "volumes": {},
@@ -108,6 +115,64 @@ async def get_ricci_curvature(tickers: str, start: str = "2020-01-01", end: str 
     except Exception as e:
         logger.error(f"Error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/future-regime-analysis/")
+async def analyze_future_regime(request: dict):
+    try:
+        sectors = request.get("sectors", [])
+        timeframe = request.get("timeframe", 7)  # Get timeframe from request
+        
+        logger.info(f"Analyzing future regime for sectors: {sectors} with timeframe: {timeframe}")
+        
+        # Get sector data
+        sector_indices = data_fetcher.get_sector_indices(sectors)
+        if sector_indices is None or sector_indices.empty:
+            raise HTTPException(status_code=500, detail="Failed to fetch sector data")
+            
+        # Calculate returns and curvature
+        returns = data_fetcher.calculate_returns(sector_indices)
+        curvature = data_fetcher.calculate_curvature(returns)
+        
+        # Analyze regime with timeframe
+        regime_analysis = market_regime_analyzer.analyze_market_regimes(returns)
+        
+        if regime_analysis is None:
+            raise HTTPException(status_code=500, detail="Failed to analyze regime")
+            
+        return {"regime_analysis": regime_analysis}
+        
+    except Exception as e:
+        logger.error(f"Error in future regime analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/market-analysis/")
+async def analyze_market(tickers: str, start: str, end: str):
+    try:
+        # Fetch data
+        stock_data = fetch_stock_data(tickers.split(','), start, end)
+        if not stock_data or 'prices' not in stock_data:
+            raise HTTPException(status_code=404, detail="Failed to fetch stock data")
+        
+        # Calculate returns
+        returns = stock_data['prices'].pct_change().dropna()
+        
+        # Use our new analyzer
+        results = market_regime_analyzer.analyze_market_regimes(returns)
+        
+        return results
+        
+    except Exception as e:
+        logger.error(f"Error in market analysis: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/regime-analysis/")
+async def analyze_regimes(tickers: str, start: str, end: str):
+    # This should match the endpoint in main.py
+    return await analyze_market(tickers, start, end)
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
 
 if __name__ == "__main__":
     import uvicorn
