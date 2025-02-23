@@ -6,6 +6,8 @@ A financial analysis platform that applies differential geometry, particularly R
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
 
+---
+
 ### Abstract
 
 Imagine the stock market visualized as a flexible geometric surface (like a plastic sheet!) where each point represents a collection of stock prices, the shape of the surface tells us about market behavior, and curvature measures how this shape deviates from being flat. Consider the outputs in backend/market_visualizer/output to demonstrate how we model our stock market.
@@ -23,8 +25,12 @@ This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Gra
 
 By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
 
+---
+
 ### Ollivier-Ricci Curvature
 The core mathematical concept of note is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
+
+---
 
 #### Network Construction
 - **Vertices (V):** Individual stocks
@@ -43,6 +49,8 @@ where:
 -  W<sub>1</sub> is the Wasserstein-1 (transportation) distance
 -  μ<sub>x</sub>, μ<sub>y</sub> are probability measures representing local mass distributions
 -  d(x,y) is the shortest-path distance in the weighted network
+
+---
 
 ### Application to Financial Markets
 
@@ -64,6 +72,8 @@ where:
   \kappa(i) = \frac{\sum_j w_{ij} \kappa(i,j)}{\sum_j w_{ij}}
   ```
 
+---
+
 ### Market Regimes
 The scalar curvature flow equation:
 
@@ -72,6 +82,8 @@ The scalar curvature flow equation:
 ```
 
 governs the evolution of market structure.
+
+---
 
 #### Key Theoretical Results
 
@@ -83,6 +95,8 @@ Therein, we can deduce that:
 - **Negative curvature:** More fragile network
 - \( κ > 0 \) indicates market stability
 - \( κ < 0 \) suggests potential market stress
+
+---
 
 ### Portfolio Optimization
 Using curvature as a risk measure:
@@ -97,19 +111,46 @@ where:
 - \( μ \): Expected returns
 - \( κ<sub>0</sub> \): Minimum curvature threshold
 
-### Why Does it Work?
+---
 
-It works because it goes beyond simple pairwise correlations, capturing the higher-order relationships that influence the system.
+### Math TL;DR: Curvature helps analyze market structure, predict regime shifts, and optimize portfolios for stability.
 
-This approach measures both local interaction strength and the overall network structure, providing a clearer picture of how elements are connected.
+Within the model:
+- Ollivier-Ricci Curvature: Measures how "tight" or "spread out" connections between stocks are, helping us detect strong or weak market structures.
+- Market Analysis: Stocks form a network where curvature measures how interconnected and resilient the market is. High curvature means strong, stable relationships, while low curvature signals potential instability.
+- Regime Predictions: The evolution of curvature over time helps detect shifts between stable and volatile market conditions. If curvature trends negative, stress is increasing, signaling a potential downturn.
+- Portfolio Optimization: Curvature is used as a risk constraint, ensuring investments stay in stable regions by selecting assets that maintain a minimum curvature threshold, reducing exposure to fragile market conditions.
 
-Additionally, it ensures topological stability by using Ricci curvature to bound entropy changes, offering valuable early warning signals for potential market stress. 
+---
 
 ![toptradingpairsimage](https://github.com/user-attachments/assets/02711bda-097c-4c68-8e6e-dab7d002991f)
 
 ![performingpairsimage](https://github.com/user-attachments/assets/27918d76-0ff0-4184-bcbb-fa2183c9fbeb)
+---
 
-# Applicability
+## Features
+
+### Market Analysis
+- Real-time stock data fetching via Yahoo Finance API
+- Network visualization of stock relationships
+- Ricci curvature calculation for market structure analysis
+- Portfolio optimization based on network metrics
+
+![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
+
+---
+
+### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
+- Market regime detection
+- Lead-lag relationship analysis
+- Stock pair correlation analysis
+- Volatility and risk-return assessment
+  
+![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+
+---
+
+## Applicability
 
 ## Future Regime Predictor
 
@@ -128,7 +169,9 @@ where:
 - \( g<sub>ij</sub> \) is the metric tensor
 - \( R<sub>ij</sub> \) is the Ricci tensor
 - \( X<sub>i</sub> \) represents the sectoral velocity field
-- \( ∇<sub>ij</sub? \) represents the covariant derivative w.r.t coordinate i,j
+- \( ∇<sub>ij</sub> \) represents the covariant derivative w.r.t coordinate i,j
+
+---
 
 #### Regime Transition Dynamics
 
@@ -142,6 +185,8 @@ The system incorporates:
    - Rolling volatility metrics
    - Cross-sectional dispersion
    - Correlation structure evolution
+
+---
 
 #### Metric Evolution
 
@@ -163,41 +208,18 @@ If X<sub>i</sub> and V<sub>α</sub> are meant to represent sectoral velocity fie
 ```
 to maintain consistency across formulations.
 
+---
 
-#### Prediction Confidence Metrics
+### Math TL;DR: We use Ricci flow to track how the market's structure evolves over time, like watching how a financial network "bends" or "flattens" under stress.
 
-The system employs multiple confidence metrics:
-- Eigenvalue stability of the transition matrix
-- Geometric entropy of the market state
-- Cross-validation with HMM predictions
-
-This mathematical framework allows us to:
-1. Identify regime transition probabilities
-2. Quantify prediction confidence
-3. Generate sector-specific movement forecasts
-4. Estimate regime stability metrics
-
-Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how market conditions change over time. The equations help measure shifts in market structure, while the model uses patterns in volatility, correlations, and sector movements to predict future regime changes. This approach helps identify market shifts early, giving a clearer picture of potential trends before they fully develop.
-
-## Features
-
-### Market Analysis
-- Real-time stock data fetching via Yahoo Finance API
-- Network visualization of stock relationships
-- Ricci curvature calculation for market structure analysis
-- Portfolio optimization based on network metrics
-
-![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
-
-
-### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
-- Market regime detection
-- Lead-lag relationship analysis
-- Stock pair correlation analysis
-- Volatility and risk-return assessment
+- Ricci Flow Equation: Adjusts the market’s "shape" by smoothing out irregularities, helping detect whether sectors are moving in sync (stable) or pulling apart (unstable).
+- Sectoral Velocity Fields: Measure how fast different parts of the market are shifting, acting like a "wind map" for sector movements.
+- Hamilton-DeTurck Flow: Ensures our model stays consistent by adjusting for distortions, similar to keeping a map properly aligned over time.
+- Hidden Markov Model: Uses these features to predict the probability of market regime changes, like detecting early warning signs of crashes or booms.
   
-![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+#### All of which are necessary to forecast a market shift before it happens.
 
+---
 
 ## Technical Architecture
 
@@ -225,6 +247,8 @@ Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how m
   - Real-time data visualization
   - Network graph rendering
   - Analysis results display
+
+---
 
 ## Installation
 
@@ -262,6 +286,8 @@ npm start
 
 If you're prompted with no optimal trading partners or the graph doesn't generate, try using less stock comparisons, or refresh the application.
 
+---
+
 ## Technology Stack
 
 ### Backend
@@ -279,6 +305,8 @@ If you're prompted with no optimal trading partners or the graph doesn't generat
 - Plotly.js (Visualization)
 - Axios (API Client)
 - React-Plotly.js (Interactive Charts)
+
+---
 
 ### Analytics
 
