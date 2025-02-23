@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import Plot from 'react-plotly.js';
 import { Line } from 'react-plotly.js';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const styles = {
   '@keyframes gradient': {
@@ -86,7 +87,8 @@ const styles = {
   buttonContainer: {
     display: 'flex',
     gap: '10px',
-    marginTop: '20px'
+    marginTop: '20px',
+    justifyContent: 'center'
   },
   analysisContainer: {
     display: 'flex',
@@ -285,17 +287,58 @@ const styles = {
     display: 'grid',
     gridTemplateColumns: '1fr',
     gap: '10px'
+  },
+  futureRegimeButton: {
+    backgroundColor: '#2196F3',
+    color: 'white',
+    padding: '12px 24px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    margin: '20px 0',
+    transition: 'background-color 0.3s'
+  },
+  actionButton: {
+    padding: '12px 24px',
+    backgroundColor: '#4285f4',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 15px rgba(66, 133, 244, 0.3)',
+    ':hover': {
+      backgroundColor: '#3367d6',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 6px 20px rgba(66, 133, 244, 0.4)',
+    }
   }
 };
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
   
-  // Initialize state with today as end date
-  const [startDate, setStartDate] = useState("2020-01-01");
-  const [endDate, setEndDate] = useState(today);
-  const [tickers, setTickers] = useState("");
+  // Default date functions
+  const getDefaultStartDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 1);  // 1 year ago
+    return date.toISOString().split('T')[0];
+  };
+
+  const getDefaultEndDate = () => {
+    return today;
+  };
+
+  // Initialize state with preserved values if they exist
+  const [tickers, setTickers] = useState(location.state?.preservedTickers || '');
+  const [startDate, setStartDate] = useState(location.state?.preservedStartDate || getDefaultStartDate());
+  const [endDate, setEndDate] = useState(location.state?.preservedEndDate || getDefaultEndDate());
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
@@ -1259,6 +1302,84 @@ function App() {
     }
   };
 
+  const navigateToFutureRegime = () => {
+    navigate('/future-regime', { 
+      state: { 
+        tickers: tickers,
+        startDate: startDate,
+        endDate: endDate,
+        buttonStates: buttonStates  // Add this
+      } 
+    });
+  };
+
+  // Add state for tab visibility
+  const [tabStates, setTabStates] = useState(() => {
+    // Try to get saved states from localStorage
+    const savedStates = localStorage.getItem('tabStates');
+    return savedStates ? JSON.parse(savedStates) : {
+      calculateOpen: false,
+      analyzeMarketOpen: false,
+      showPredictionsOpen: false
+    };
+  });
+
+  // Save tab states to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('tabStates', JSON.stringify(tabStates));
+  }, [tabStates]);
+
+  const toggleTab = (tabName) => {
+    setTabStates(prev => ({
+      ...prev,
+      [tabName]: !prev[tabName]
+    }));
+  };
+
+  // Add state for button clicks with localStorage persistence
+  const [buttonStates, setButtonStates] = useState(() => {
+    // Try to get saved states from localStorage or navigation state
+    return location.state?.preservedButtonStates || {
+      calculated: false,
+      analyzed: false,
+      regimeAnalyzed: false,
+      predictionsShown: false
+    };
+  });
+
+  // Save button states to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('buttonStates', JSON.stringify(buttonStates));
+  }, [buttonStates]);
+
+  const handleCalculate = async () => {
+    try {
+      // Your existing calculate logic
+      setButtonStates(prev => ({
+        ...prev,
+        calculated: true
+      }));
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to calculate');
+    }
+  };
+
+  const handleAnalyzeMarket = async () => {
+    // Your existing analyze market logic
+    setButtonStates(prev => ({
+      ...prev,
+      analyzed: true
+    }));
+  };
+
+  const handleShowPredictions = async () => {
+    // Your existing predictions logic
+    setButtonStates(prev => ({
+      ...prev,
+      predictionsShown: true
+    }));
+  };
+
   return (
     <>
       <div style={styles.background} />
@@ -1340,24 +1461,18 @@ function App() {
               </button>
               <button
                 type="button"
-                onClick={handleLeadLagAnalysis}
+                onClick={navigateToFutureRegime}
                 disabled={!result}
                 style={{
                   ...buttonStyle(!result),
                   backgroundColor: '#ea4335'
                 }}
               >
-                Analyze Lead-Lag
+                Analyze Future Regimes
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  if (!showPredictions) {
-                    handlePredictions();
-                  } else {
-                    setShowPredictions(false);
-                  }
-                }}
+                onClick={handlePredictions}
                 disabled={!result}
                 style={{
                   ...buttonStyle(!result),
