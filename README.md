@@ -66,7 +66,7 @@ where:
 
 #### Market Network Construction
 - **Nodes:** Represent individual stocks
-- **Edge weights:** \( w<sub>ij,/sub >= ρ<sub>ij</sub> \) (correlation coefficient)
+- **Edge weights:** \( w<sub>ij</sub> ≥ ρ<sub>ij</sub> \) (correlation coefficient)
 - **Price returns:** \( r<sub>i(t)</sub> = log(P<sub>i(t)</sub> | r<sub>i(t-1)</sub>) \)
 
 #### Network Measures
