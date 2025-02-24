@@ -27,9 +27,15 @@ The bending or curvature of this surface (mathematically called Ricci curvature)
 ---
 
 ### Theoretical Background
-This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. 
+This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
 
-By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
+While the approach is inspired by Ricci flow and differential geometry, it's important to note that the foundation is built off of a discretized version adapted for financial markets. Specifically:
+
+- Using Ollivier-Ricci curvature to measure local market structure and stability
+- The implementation captures market relationships through a network-based approximation of geometric concepts
+- The connection to pure differential geometry serves as a mathematical inspiration rather than a strict theoretical framework
+
+This distinction helps frame our results in their proper context: as practical tools for market analysis rather than pure geometric theory.
 
 ---
 
