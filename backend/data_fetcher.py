@@ -8,17 +8,6 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 def fetch_stock_data(tickers: List[str], start: str = "2020-01-01", end: str = "2024-01-01") -> Optional[Dict]:
-    """
-    Fetch historical data and additional metrics for given tickers.
-    
-    Args:
-        tickers: List of stock ticker symbols
-        start: Start date in YYYY-MM-DD format
-        end: End date in YYYY-MM-DD format
-        
-    Returns:
-        Dictionary containing prices and additional metrics, or None if error occurs
-    """
     try:
         if not tickers:
             logger.error("No tickers provided")
@@ -198,9 +187,6 @@ class DataFetcher:
             return None
             
     def calculate_returns(self, prices: pd.DataFrame) -> pd.DataFrame:
-        """
-        Calculate returns from price data
-        """
         try:
             returns = prices.pct_change().fillna(0)
             return returns
@@ -209,9 +195,6 @@ class DataFetcher:
             return pd.DataFrame()
             
     def calculate_curvature(self, returns: pd.DataFrame) -> pd.DataFrame:
-        """
-        Calculate market curvature from returns
-        """
         try:
             # Use rolling windows to calculate curvature
             window = 20
