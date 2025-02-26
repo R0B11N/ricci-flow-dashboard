@@ -26,6 +26,10 @@ The bending or curvature of this surface (mathematically called Ricci curvature)
 
 ---
 
+![marketmanifoldimage](https://github.com/user-attachments/assets/aa86bb7a-0927-4548-a186-b2977c224225)
+
+---
+
 ### Theoretical Background
 This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
 
