@@ -2,9 +2,13 @@
 
 ![riccistonksimage](https://github.com/user-attachments/assets/e8e016b9-69bc-466f-94ba-3685ca74c5a4)
 
-A sophisticated financial analysis platform leveraging differential geometry concepts, specifically Ricci curvature, to analyze stock market network dynamics and predict market behavior.
+---
+
+A financial analysis platform that applies differential geometry, particularly Ricci curvature, to model stock market dynamics and predict future trends.
 
 ## Mathematical Foundation: Ricci Flow and Financial Networks
+
+---
 
 ### Abstract
 
@@ -16,20 +20,44 @@ On this geometric representation (one of many), we can observe different market 
 
 The bending or curvature of this surface (mathematically called Ricci curvature) helps us measure market stability - a highly curved surface suggests market stress, while a flatter surface indicates more stable conditions. Therein- this visual approach makes complex market analysis more notable, helping us see patterns and relationships that might be hidden in traditional stock charts and numbers.
 
+---
+
 ![peaksimage](https://github.com/user-attachments/assets/b3b2bfdc-c0fd-48f1-b1f6-d619b35e102e)
 
+---
+
+![marketmanifoldimage](https://github.com/user-attachments/assets/aa86bb7a-0927-4548-a186-b2977c224225)
+
+---
+
 ### Theoretical Background
-This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Using the geometric surface rhetoric, we can do some cool operations with Riemannian Geometry to create real market predictions.
+This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Graph Curvature and the Robustness of Complex Networks" and extends it to financial market analysis. The fundamental insight is that Ricci curvature, a concept from differential geometry, can be adapted to discrete networks to measure network viability and structural characteristics. Essentially, curvature measures how interconnected and resilient a financial network is- positive curvature indicates stability, where stocks move cohesively, while negative curvature signals fragility, with sectors behaving inconsistently. By detecting these shifts early, curvature provides a powerful tool for predicting volatility and identifying regime transitions before they fully develop. Therein, using the geometric surface metaphor, we can do some cool operations with Riemannian Geometry to create real market predictions.
+
+While the approach is inspired by Ricci flow and differential geometry, it's important to note that the foundation is built off of a discretized version adapted for financial markets. Specifically:
+
+- Using Ollivier-Ricci curvature to measure local market structure and stability
+- The implementation captures market relationships through a network-based approximation of geometric concepts
+- The connection to pure differential geometry serves as a mathematical inspiration rather than a strict theoretical framework
+
+This distinction helps frame our results in their proper context: as practical tools for market analysis rather than pure geometric theory.
+
+---
 
 ### Ollivier-Ricci Curvature
 The core mathematical concept of note is Ollivier-Ricci curvature, which is a discrete analog of Ricci curvature from Riemannian geometry. For a financial network:
+
+---
 
 #### Network Construction
 - **Vertices (V):** Individual stocks
 - **Edges (E):** Correlations between stocks
 - **Weight function w:** E → [0,1]
-  
+
+---
+
 ![snetworkimage](https://github.com/user-attachments/assets/fc77f466-e143-4c3a-a12e-addba1c8cb86)
+
+---
 
 #### Curvature Definition
 For any two vertices \(x,y ∈ V\), the Ollivier-Ricci curvature κ(x,y) is defined as:
@@ -42,11 +70,13 @@ where:
 -  μ<sub>x</sub>, μ<sub>y</sub> are probability measures representing local mass distributions
 -  d(x,y) is the shortest-path distance in the weighted network
 
+---
+
 ### Application to Financial Markets
 
 #### Market Network Construction
 - **Nodes:** Represent individual stocks
-- **Edge weights:** \( w<sub>ij,/sub >= ρ<sub>ij</sub> \) (correlation coefficient)
+- **Edge weights:** \( w<sub>ij</sub> ≥ ρ<sub>ij</sub> \) (correlation coefficient)
 - **Price returns:** \( r<sub>i(t)</sub> = log(P<sub>i(t)</sub> | r<sub>i(t-1)</sub>) \)
 
 #### Network Measures
@@ -62,6 +92,8 @@ where:
   \kappa(i) = \frac{\sum_j w_{ij} \kappa(i,j)}{\sum_j w_{ij}}
   ```
 
+---
+
 ### Market Regimes
 The scalar curvature flow equation:
 
@@ -70,6 +102,8 @@ The scalar curvature flow equation:
 ```
 
 governs the evolution of market structure.
+
+---
 
 #### Key Theoretical Results
 
@@ -81,6 +115,8 @@ Therein, we can deduce that:
 - **Negative curvature:** More fragile network
 - \( κ > 0 \) indicates market stability
 - \( κ < 0 \) suggests potential market stress
+
+---
 
 ### Portfolio Optimization
 Using curvature as a risk measure:
@@ -95,24 +131,63 @@ where:
 - \( μ \): Expected returns
 - \( κ<sub>0</sub> \): Minimum curvature threshold
 
-### Why Does it Work?
+---
 
-It works because it goes beyond simple pairwise correlations, capturing the higher-order relationships that influence the system.
+### Math TL;DR: Curvature helps analyze market structure, predict regime shifts, and optimize portfolios for stability.
 
-This approach measures both local interaction strength and the overall network structure, providing a clearer picture of how elements are connected.
+Within the model:
+- Ollivier-Ricci Curvature: Measures how "tight" or "spread out" connections between stocks are, helping us detect strong or weak market structures.
+- Market Analysis: Stocks form a network where curvature measures how interconnected and resilient the market is. High curvature means strong, stable relationships, while low curvature signals potential instability.
+- Regime Predictions: The evolution of curvature over time helps detect shifts between stable and volatile market conditions. If curvature trends negative, stress is increasing, signaling a potential downturn.
+- Portfolio Optimization: Curvature is used as a risk constraint, ensuring investments stay in stable regions by selecting assets that maintain a minimum curvature threshold, reducing exposure to fragile market conditions.
 
-Additionally, it ensures topological stability by using Ricci curvature to bound entropy changes, offering valuable early warning signals for potential market stress. 
-
+---
 ![toptradingpairsimage](https://github.com/user-attachments/assets/02711bda-097c-4c68-8e6e-dab7d002991f)
+
+---
 
 ![performingpairsimage](https://github.com/user-attachments/assets/27918d76-0ff0-4184-bcbb-fa2183c9fbeb)
 
-# Applicability
+---
+
+## Features
+
+### Market Analysis
+- Real-time stock data fetching via Yahoo Finance API
+- Network visualization of stock relationships
+- Ricci curvature calculation for market structure analysis
+- Portfolio optimization based on network metrics
+
+---
+
+![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
+
+---
+
+### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
+- Market regime detection
+- Lead-lag relationship analysis
+- Stock pair correlation analysis
+- Volatility and risk-return assessment
+
+---
+
+![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+
+---
+
+## Applicability
 
 ## Future Regime Predictor
+--- 
 
 ![futuresimage](https://github.com/user-attachments/assets/2d83ff3d-ae71-46a5-b97a-375eb376dcad)
+
+---
+
 ![futuresiiimage](https://github.com/user-attachments/assets/04832ed3-12a8-420f-b295-447baec0b5f9)
+
+---
 
 The future regime predictor employs a hybrid approach combining geometric flow analysis with Hidden Markov Models. The system analyzes market topology through sectoral Ricci curvature and geodesic flows.
 
@@ -126,6 +201,9 @@ where:
 - \( g<sub>ij</sub> \) is the metric tensor
 - \( R<sub>ij</sub> \) is the Ricci tensor
 - \( X<sub>i</sub> \) represents the sectoral velocity field
+- \( ∇<sub>ij</sub> \) represents the covariant derivative w.r.t coordinate i,j
+
+---
 
 #### Regime Transition Dynamics
 
@@ -139,6 +217,8 @@ The system incorporates:
    - Rolling volatility metrics
    - Cross-sectional dispersion
    - Correlation structure evolution
+
+---
 
 #### Metric Evolution
 
@@ -160,41 +240,18 @@ If X<sub>i</sub> and V<sub>α</sub> are meant to represent sectoral velocity fie
 ```
 to maintain consistency across formulations.
 
+---
 
-#### Prediction Confidence Metrics
+### Math TL;DR: We use Ricci flow to track how the market's structure evolves over time, like watching how a financial network "bends" or "flattens" under stress.
 
-The system employs multiple confidence metrics:
-- Eigenvalue stability of the transition matrix
-- Geometric entropy of the market state
-- Cross-validation with HMM predictions
-
-This mathematical framework allows us to:
-1. Identify regime transition probabilities
-2. Quantify prediction confidence
-3. Generate sector-specific movement forecasts
-4. Estimate regime stability metrics
-
-Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how market conditions change over time. The equations help measure shifts in market structure, while the model uses patterns in volatility, correlations, and sector movements to predict future regime changes. This approach helps identify market shifts early, giving a clearer picture of potential trends before they fully develop.
-
-## Features
-
-### Market Analysis
-- Real-time stock data fetching via Yahoo Finance API
-- Network visualization of stock relationships
-- Ricci curvature calculation for market structure analysis
-- Portfolio optimization based on network metrics
-
-![marketsfimage](https://github.com/user-attachments/assets/6632b956-531f-467b-b7ee-41822f5e2308)
-
-
-### Prediction Capabilities Utilizing Hidden Markov Models and the Sharpe Ratio:
-- Market regime detection
-- Lead-lag relationship analysis
-- Stock pair correlation analysis
-- Volatility and risk-return assessment
+- Ricci Flow Equation: Adjusts the market’s "shape" by smoothing out irregularities, helping detect whether sectors are moving in sync (stable) or pulling apart (unstable).
+- Sectoral Velocity Fields: Measure how fast different parts of the market are shifting, acting like a "wind map" for sector movements.
+- Hamilton-DeTurck Flow: Ensures our model stays consistent by adjusting for distortions, similar to keeping a map properly aligned over time.
+- Hidden Markov Model: Uses these features to predict the probability of market regime changes, like detecting early warning signs of crashes or booms.
   
-![bearlolimage](https://github.com/user-attachments/assets/fde57249-26c4-4a17-b97c-b3d9f610fb13)
+#### All of which are necessary to forecast a market shift before it happens.
 
+---
 
 ## Technical Architecture
 
@@ -223,6 +280,8 @@ Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how m
   - Network graph rendering
   - Analysis results display
 
+---
+
 ## Installation
 
 ### Prerequisites
@@ -235,24 +294,31 @@ Thus- by combining Ricci flow with Hidden Markov Models, the system tracks how m
 1. Backend Setup
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
 pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 5000
-# OR
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+# ONLY THEN YOU CAN DO:
 python -m uvicorn main:app --reload
+# Any dependency issues can be adjusted in the requirements file. YFinance on a trial run had to be updated.
+# If YF doesn't work, do:
+pip install yfinance --upgrade
 ```
+![backendimage](https://github.com/user-attachments/assets/bddb3f21-5a59-430a-a43f-12727b5be6d5)
 
 2. Frontend Setup
 ```bash
 cd frontend
 npm install
 npm start
+# wait a bit, make sure the backend is running first
 ```
+![hooplaimage](https://github.com/user-attachments/assets/20815c0c-e364-4990-accf-8785f967f08d)
+![WOOHOOimage](https://github.com/user-attachments/assets/d1a68762-9ca6-4ad6-b3ad-b093eee65ca9)
 
 3. Additional Notes
 
 If you're prompted with no optimal trading partners or the graph doesn't generate, try using less stock comparisons, or refresh the application.
+
+---
 
 ## Technology Stack
 
@@ -272,8 +338,10 @@ If you're prompted with no optimal trading partners or the graph doesn't generat
 - Axios (API Client)
 - React-Plotly.js (Interactive Charts)
 
+---
+
 ### Analytics
 
 Monte Carlo simulations were conducted on the Ricci Flow Curvature, and the analytics can be found under /notebooks -> simulations.ipynb
 
-### If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go!
+#### If you're interested in adding any cool tidbits or your own work, create a Pull Request and give it a go! If something's broken, please make the pull request and let me know of the issue.
