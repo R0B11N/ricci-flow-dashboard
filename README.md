@@ -35,6 +35,7 @@ This project builds upon the groundbreaking work of Sandhu et al. (2016) in "Gra
 
 While the approach is inspired by Ricci flow and differential geometry, it's important to note that the foundation is built off of a discretized version adapted for financial markets. Specifically:
 
+- Reducing Dimensionality using Multi-Dimensional Scaling (so it can actually function)
 - Using Ollivier-Ricci curvature to measure local market structure and stability
 - The implementation captures market relationships through a network-based approximation of geometric concepts
 - The connection to pure differential geometry serves as a mathematical inspiration rather than a strict theoretical framework
