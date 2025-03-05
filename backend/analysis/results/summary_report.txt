@@ -1,0 +1,13 @@
+Market Analysis Summary Report
+============================
+
+Network Metrics:
+{'density': 1.0, 'clustering_coefficient': 0.5193748067870411, 'avg_degree': 6.0, 'centrality': {'MSFT': 0.43673054631120595, 'GOOGL': 0.11080312222171704, 'NVDA': 0.42496930165445124, 'AAPL': 0.457518501827086, 'TSLA': 0.3421086039747367, 'NFLX': 0.41978606714908945, 'GME': 0.3373549645044793}}
+
+Regime Analysis:
+{'predicted_regime': 'BEAR MARKET', 'regime_probabilities': {'Bull Market': 23.427128023967523, 'Bear Market': 59.38912146821338, 'Transition': 17.18375050781911}, 'confidence_metrics': {'model_confidence': 22.184480249408594, 'transition_probability': 85.0, 'geometric_confidence': 59.36554788047444}, 'sector_movements': {'AAPL': {'direction': 'down', 'magnitude': 103.39861953261743, 'confidence': 0.37416000744650224}, 'GME': {'direction': 'down', 'magnitude': 99.08548365725842, 'confidence': 0.4002344178433921}, 'GOOGL': {'direction': 'down', 'magnitude': 29.181565292041316, 'confidence': 0.41313551581577074}, 'MSFT': {'direction': 'down', 'magnitude': 11.199534977917626, 'confidence': 0.5293709644149995}, 'NFLX': {'direction': 'down', 'magnitude': 16.26715385357561, 'confidence': 0.4956969826900556}, 'NVDA': {'direction': 'down', 'magnitude': 13.567589508300308, 'confidence': 0.5485788946157868}, 'TSLA': {'direction': 'down', 'magnitude': 22.045682938495933, 'confidence': 0.3337922240187249}}}
+
+Statistical Analysis:
+Highest Correlation: MSFT-AAPL: 0.7388
+
+Most Volatile Stock: GME: 1.5611

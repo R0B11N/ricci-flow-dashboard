@@ -1,0 +1,43 @@
+Statistical Analysis Results
+==========================
+
+Normality Tests:
+MSFT: p-value = 0.0000 (non-normal)
+GOOGL: p-value = 0.0000 (non-normal)
+NVDA: p-value = 0.0000 (non-normal)
+AAPL: p-value = 0.0000 (non-normal)
+TSLA: p-value = 0.0000 (non-normal)
+NFLX: p-value = 0.0000 (non-normal)
+GME: p-value = 0.0000 (non-normal)
+
+Correlation Tests:
+MSFT-GOOGL: corr = 0.7340, p-value = 0.0000
+MSFT-NVDA: corr = 0.6766, p-value = 0.0000
+MSFT-AAPL: corr = 0.7388, p-value = 0.0000
+MSFT-TSLA: corr = 0.4435, p-value = 0.0000
+MSFT-NFLX: corr = 0.4849, p-value = 0.0000
+MSFT-GME: corr = 0.1190, p-value = 0.0000
+GOOGL-NVDA: corr = 0.5860, p-value = 0.0000
+GOOGL-AAPL: corr = 0.6376, p-value = 0.0000
+GOOGL-TSLA: corr = 0.4036, p-value = 0.0000
+GOOGL-NFLX: corr = 0.4404, p-value = 0.0000
+GOOGL-GME: corr = 0.1033, p-value = 0.0002
+NVDA-AAPL: corr = 0.5870, p-value = 0.0000
+NVDA-TSLA: corr = 0.4601, p-value = 0.0000
+NVDA-NFLX: corr = 0.4690, p-value = 0.0000
+NVDA-GME: corr = 0.1245, p-value = 0.0000
+AAPL-TSLA: corr = 0.4807, p-value = 0.0000
+AAPL-NFLX: corr = 0.4536, p-value = 0.0000
+AAPL-GME: corr = 0.1614, p-value = 0.0000
+TSLA-NFLX: corr = 0.3596, p-value = 0.0000
+TSLA-GME: corr = 0.1727, p-value = 0.0000
+NFLX-GME: corr = 0.0664, p-value = 0.0167
+
+Annualized Volatility:
+MSFT: 0.3036
+GOOGL: 0.3249
+NVDA: 0.5456
+AAPL: 0.3156
+TSLA: 0.6696
+NFLX: 0.4520
+GME: 1.5611

@@ -1,0 +1,29 @@
+2025-03-05 04:55:04,367 - ERROR - Failed to import backend modules: cannot import name 'get_stock_data' from 'data_fetcher' (C:\Users\lenovo\Downloads\ricci-flow-dashboard\backend\data_fetcher.py)
+2025-03-05 05:05:17,551 - INFO - Analysis initialized for 7 stocks
+2025-03-05 05:05:17,551 - INFO - Starting full analysis...
+2025-03-05 05:05:17,551 - INFO - Fetching market data...
+2025-03-05 05:05:19,631 - INFO - Successfully fetched data with shape (1298, 7)
+2025-03-05 05:05:19,631 - INFO - Analyzing network structure...
+2025-03-05 05:05:19,671 - INFO - Network analysis completed
+2025-03-05 05:05:19,671 - INFO - Analyzing market regimes...
+2025-03-05 05:05:19,801 - INFO - Starting regime analysis with timeframe: 30 days
+2025-03-05 05:05:19,803 - INFO - Market return shape: (1298, 1)
+2025-03-05 05:05:19,858 - INFO - Raw regime probabilities: [0.13619985 0.85184352 0.01195664]
+2025-03-05 05:05:19,866 - INFO - Calculated market breadth: 0.16000000000000003
+2025-03-05 05:05:19,871 - INFO - Market metrics - Breadth: 0.160, Vol: 0.038, Corr: 0.498
+2025-03-05 05:05:19,871 - INFO - Probability spread: 0.716, Regime certainty: 0.724
+2025-03-05 05:05:19,876 - INFO - Alignments - Breadth: -1, Vol: 1, Corr: -1
+2025-03-05 05:05:19,877 - INFO - Base confidence: 0.259
+2025-03-05 05:05:19,877 - INFO - Time decay factor: 0.500
+2025-03-05 05:05:19,877 - INFO - Raw confidence before time decay: 0.205
+2025-03-05 05:05:19,877 - INFO - Confidence after time decay: 0.103
+2025-03-05 05:05:19,877 - INFO - Final scaled confidence: 0.222
+2025-03-05 05:05:19,906 - INFO - Generated response with sector movements: {'AAPL': {'direction': 'down', 'magnitude': 103.39861953261743, 'confidence': 0.37416000744650224}, 'GME': {'direction': 'down', 'magnitude': 99.08548365725842, 'confidence': 0.4002344178433921}, 'GOOGL': {'direction': 'down', 'magnitude': 29.181565292041316, 'confidence': 0.41313551581577074}, 'MSFT': {'direction': 'down', 'magnitude': 11.199534977917626, 'confidence': 0.5293709644149995}, 'NFLX': {'direction': 'down', 'magnitude': 16.26715385357561, 'confidence': 0.4956969826900556}, 'NVDA': {'direction': 'down', 'magnitude': 13.567589508300308, 'confidence': 0.5485788946157868}, 'TSLA': {'direction': 'down', 'magnitude': 22.045682938495933, 'confidence': 0.3337922240187249}}
+2025-03-05 05:05:19,917 - INFO - Regime analysis completed
+2025-03-05 05:05:19,919 - INFO - Generating visualizations...
+2025-03-05 05:05:24,681 - INFO - Visualizations completed
+2025-03-05 05:05:24,686 - INFO - Running statistical tests...
+2025-03-05 05:05:24,997 - INFO - Statistical tests completed
+2025-03-05 05:05:24,999 - INFO - Generating summary report...
+2025-03-05 05:05:25,002 - INFO - Summary report generated
+2025-03-05 05:05:25,005 - INFO - Analysis completed successfully
