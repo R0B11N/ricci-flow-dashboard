@@ -2,3 +2,5 @@
 env/
 myenv/
 __pycache__/
+package-lock.json
+.python-version
